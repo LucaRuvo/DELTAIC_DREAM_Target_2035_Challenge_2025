@@ -106,23 +106,6 @@ Desktop.ini
 *.log
 logs/
 
-# Output directories and test files created during pipeline validation
-output/
-test_output/
-toy_data/
-toy_datasets/
-results/
-submissions/
-models/
-
-# Specific test files we created
-create_toy_datasets.py
-test_pipeline_commands.py
-final_validation.py
-test_*.py
-test_gpu_detection.py
-final_cleanup_check.py
-
 # Any backup or temporary files
 *.bak
 *.tmp
