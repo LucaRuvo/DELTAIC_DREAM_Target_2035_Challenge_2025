@@ -1,0 +1,131 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+.python-version
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE
+.vscode/settings.json
+.vscode/launch.json
+.vscode/tasks.json
+.idea/
+*.swp
+*.swo
+*~
+
+# MacOS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Data files (exclude all data used for testing)
+*.parquet
+*.csv
+*.xlsx
+*.xls
+*.tsv
+*.json
+*.h5
+*.hdf5
+*.pkl
+*.pickle
+
+# Model files (large binary files)
+*.pt
+*.pth
+*.h5
+*.hdf5
+*.ckpt
+*.pb
+*.onnx
+
+# Log files
+*.log
+logs/
+
+# Output directories and test files created during pipeline validation
+output/
+test_output/
+toy_data/
+toy_datasets/
+results/
+submissions/
+models/
+
+# Specific test files we created
+create_toy_datasets.py
+test_pipeline_commands.py
+final_validation.py
+test_*.py
+test_gpu_detection.py
+final_cleanup_check.py
+
+# Any backup or temporary files
+*.bak
+*.tmp
+*.temp
+*~
+.#*

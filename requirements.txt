@@ -1,0 +1,21 @@
+# Core scientific computing
+numpy>=1.21.0
+pandas>=1.3.0
+scipy>=1.7.0
+
+# Machine learning
+scikit-learn>=1.0.0
+lightgbm>=3.3.0
+torch>=1.12.0
+
+# Data handling and I/O
+pyarrow>=5.0.0  # For Parquet file support
+openpyxl>=3.0.0  # For Excel file reading/writing
+xlsxwriter>=3.0.0  # For Excel file writing (alternative engine)
+
+# Molecular data (optional - may need conda installation)
+rdkit-pypi>=2022.3.5  # Use rdkit-pypi for pip installation
+
+# Utilities
+joblib>=1.1.0  # For model serialization and LightGBM model saving
+tqdm>=4.62.0  # For progress bars in training loops
