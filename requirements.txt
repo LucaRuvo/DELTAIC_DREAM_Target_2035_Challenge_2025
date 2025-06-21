@@ -13,8 +13,8 @@ pyarrow>=5.0.0  # For Parquet file support
 openpyxl>=3.0.0  # For Excel file reading/writing
 xlsxwriter>=3.0.0  # For Excel file writing (alternative engine)
 
-# Molecular data (optional - may need conda installation)
-rdkit-pypi>=2022.3.5  # Use rdkit-pypi for pip installation
+# Molecular data
+rdkit-pypi
 
 # Utilities
 joblib>=1.1.0  # For model serialization and LightGBM model saving
