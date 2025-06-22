@@ -113,16 +113,7 @@ toy_data/
 toy_datasets/
 results/
 submissions/
-
-# Trained model files
-*.pkl
-*.pt
-*.pth
-*.h5
-*.hdf5
-*.ckpt
-*.pb
-*.onnx
+models/
 
 # Specific test files we created
 create_toy_datasets.py
