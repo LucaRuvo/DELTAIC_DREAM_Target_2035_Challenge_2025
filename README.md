@@ -263,7 +263,7 @@ Binary Prediction
 **Key Features:**
 
 - **Separate fingerprint processing**: Each fingerprint type has its own neural network branch
-- **GroupNorm**: Robust to small batch sizes (better than BatchNorm)
+- **GroupNorm**: Robust to small batch sizes
 - **Configurable architecture**: Preset options (deeper/wider/shallower)
 - **Dropout regularization**: Prevents overfitting
 - **Early stopping**: Monitors validation loss
@@ -274,13 +274,12 @@ Binary Prediction
 ### Cross-Validation Strategies
 
 1. **Stratified Group K-Fold**: Maintains class balance while respecting molecular clusters
-2. **Building Block Grouping**: Uses chemical building blocks for grouped CV (if available)
+2. **Building Block Grouping**: Uses chemical building blocks for grouped CV (computationally efficient)
 3. **ECFP4-based Clustering**: MiniBatch K-means clustering on fingerprints
-4. **Scaffold Splitting**: Coming soon (molecular scaffold-based splits)
 
 ### Molecular Diversity & Selection
 
-The pipeline includes sophisticated compound selection for diverse submissions:
+The pipeline includes compound selection for diverse submissions:
 
 1. **Tanimoto Similarity Clustering**: Groups chemically similar compounds
 2. **Iterative Diversity Filtering**: Ensures maximum 2 compounds per cluster
