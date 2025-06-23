@@ -12,17 +12,17 @@ if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
 from configs.config import Config
-from utils.utils import FP_LIST, FP_DIMS, ensure, fp_string_to_tensor, setup_logging, validate_config, load_submission_template, load_test_data, prepare_submission_data, save_submission_file, perform_diversification_clustering, filter_clusters_iteratively, assign_selection_labels
+from utils.utils import FP_LIST, FP_DIMS, ensure, fp_string_to_tensor, setup_logging, validate_config, load_test_data, prepare_submission_data, perform_diversification_clustering, filter_clusters_iteratively, assign_selection_labels
 from models.multibranch_mlp import MultiBranchMLP
 from sklearn.linear_model import LogisticRegression
 
 def parse_prediction_args():
     """Parse command line arguments for MLP prediction script."""
     parser = argparse.ArgumentParser(description='DREAM Challenge WDR91 MLP Prediction Script')
-    parser.add_argument('--test_data', type=str, required=True, help='Path to test data file (e.g., data/test_data.parquet)')
-    parser.add_argument('--output_file', type=str, required=True, help='Path to output submission CSV file')
-    parser.add_argument('--model_dir', type=str, default='./output/', help='Directory containing trained models (default: ./output/)')
-    parser.add_argument('--batch_size', type=int, default=256, help='Batch size for prediction (default: 256)')
+    parser.add_argument('--test-data', type=str, required=True, help='Path to test data file (e.g., data/test_data.parquet)')
+    parser.add_argument('--output-file', type=str, required=True, help='Path to output submission CSV file')
+    parser.add_argument('--model-dir', type=str, default='./output/', help='Directory containing trained models (default: ./output/)')
+    parser.add_argument('--batch-size', type=int, default=256, help='Batch size for prediction (default: 256)')
     parser.add_argument('--device', type=str, default=None, help='Device to use (cuda or cpu). Default: auto-detect')
     parser.add_argument('--seed', type=int, default=42, help='Random seed for reproducibility')
     return parser.parse_args()

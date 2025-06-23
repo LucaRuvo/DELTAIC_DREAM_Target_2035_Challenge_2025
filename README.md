@@ -124,7 +124,6 @@ Here's a complete example to get started:
 # 1. Train a LightGBM model
 python train/train_lgbm.py \
     --train-data "data/WDR91_HitGen.parquet" \
-    --test-data "data/WDR91_all_data.parquet" \
     --outdir "./output/lgbm_run1/" \
     --seed 42 \
     --n-splits 5
@@ -155,12 +154,13 @@ python predict/predict_mlp_submission.py \
 
 ### Configuration Options
 
+> **Note:** All command-line arguments use hyphenated format (e.g., `--train-data`, `--batch-size`, `--output-file`).
+
 #### Essential Arguments
 
 | Argument | Description | Example |
 |----------|-------------|---------|
 | `--train-data` | Path to training Parquet file | `"data/train.parquet"` |
-| `--test-data` | Path to test Parquet file (training only) | `"data/test.parquet"` |
 | `--output-file` | Path to output submission CSV (prediction only) | `"./output/submission.csv"` |
 | `--model-dir` | Directory containing trained models (prediction only) | `"./output/run1/"` |
 | `--outdir` | Output directory for training results | `"./output/run1/"` |
