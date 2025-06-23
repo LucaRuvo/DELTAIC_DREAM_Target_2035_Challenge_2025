@@ -123,33 +123,33 @@ Here's a complete example to get started:
 ```bash
 # 1. Train a LightGBM model
 python train/train_lgbm.py \
-    --train_data "data/WDR91_HitGen.parquet" \
-    --test_data "data/WDR91_all_data.parquet" \
+    --train-data "data/WDR91_HitGen.parquet" \
+    --test-data "data/WDR91_all_data.parquet" \
     --outdir "./output/lgbm_run1/" \
     --seed 42 \
-    --n_splits 5
+    --n-splits 5
 
 # 2. Generate LightGBM predictions and submission
 python predict/predict_lgbm_submission.py \
-    --test_data "data/WDR91_all_data.parquet" \
-    --output_file "./output/submission_lgbm.csv" \
-    --model_dir "./output/lgbm_run1/" \
+    --test-data "data/WDR91_all_data.parquet" \
+    --output-file "./output/submission_lgbm.csv" \
+    --model-dir "./output/lgbm_run1/" \
     --seed 42
 
 # 3. Train an MLP model  
 python train/train_mlp.py \
-    --train_data "data/WDR91_HitGen.parquet" \
+    --train-data "data/WDR91_HitGen.parquet" \
     --outdir "./output/mlp_run1/" \
     --epochs 100 \
-    --batch_size 256 \
+    --batch-size 256 \
     --seed 42
 
 # 4. Generate MLP predictions and submission
 python predict/predict_mlp_submission.py \
-    --test_data "data/WDR91_all_data.parquet" \
-    --output_file "./output/submission_mlp.csv" \
-    --model_dir "./output/mlp_run1/" \
-    --batch_size 256 \
+    --test-data "data/WDR91_all_data.parquet" \
+    --output-file "./output/submission_mlp.csv" \
+    --model-dir "./output/mlp_run1/" \
+    --batch-size 256 \
     --seed 42
 ```
 
@@ -159,10 +159,10 @@ python predict/predict_mlp_submission.py \
 
 | Argument | Description | Example |
 |----------|-------------|---------|
-| `--train_data` | Path to training Parquet file | `"data/train.parquet"` |
-| `--test_data` | Path to test Parquet file (training only) | `"data/test.parquet"` |
-| `--output_file` | Path to output submission CSV (prediction only) | `"./output/submission.csv"` |
-| `--model_dir` | Directory containing trained models (prediction only) | `"./output/run1/"` |
+| `--train-data` | Path to training Parquet file | `"data/train.parquet"` |
+| `--test-data` | Path to test Parquet file (training only) | `"data/test.parquet"` |
+| `--output-file` | Path to output submission CSV (prediction only) | `"./output/submission.csv"` |
+| `--model-dir` | Directory containing trained models (prediction only) | `"./output/run1/"` |
 | `--outdir` | Output directory for training results | `"./output/run1/"` |
 | `--seed` | Random seed for reproducibility | `42` |
 
@@ -170,17 +170,17 @@ python predict/predict_mlp_submission.py \
 
 **LightGBM Options:**
 
-- `--n_splits`: Number of CV folds (default: 5)
-- `--grouping_strategy`: Clustering method (`auto`, `bb`, `kmeans`)
+- `--n-splits`: Number of CV folds (default: 5)
+- `--grouping-strategy`: Clustering method (`auto`, `bb`, `kmeans`)
 - `--device`: Compute device (`cpu`, `gpu`)
 
 **MLP Options:**
 
 - `--epochs`: Training epochs (default: 100)
-- `--batch_size`: Batch size (default: 256)
-- `--learning_rate`: Learning rate (default: 5e-4)
-- `--branch_hidden_dims`: Architecture preset (`deeper`, `wider`, `shallower`)
-- `--dropout_rate`: Dropout probability (default: 0.4)
+- `--batch-size`: Batch size (default: 256)
+- `--learning-rate`: Learning rate (default: 5e-4)
+- `--branch-hidden-dims`: Architecture preset (`deeper`, `wider`, `shallower`)
+- `--dropout-rate`: Dropout probability (default: 0.4)
 - `--positive-class-weight`: Class balance weight (default: 1.0)
 
 #### Device Configuration
