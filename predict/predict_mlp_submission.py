@@ -11,7 +11,6 @@ project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
-from configs.config import Config
 from utils.utils import FP_LIST, FP_DIMS, ensure, fp_string_to_tensor, setup_logging, validate_config, load_test_data, prepare_submission_data, perform_diversification_clustering, filter_clusters_iteratively, assign_selection_labels
 from models.multibranch_mlp import MultiBranchMLP
 from sklearn.linear_model import LogisticRegression
@@ -374,6 +373,12 @@ def main():
         
         # Create final submission dataframe
         final_submission_df = create_final_mlp_submission(submission_df, diversified_top500, score_column=score_column)
+        
+        # Ensure output directory exists before saving
+        output_dir = os.path.dirname(cfg.output_file)
+        if output_dir and not os.path.exists(output_dir):
+            os.makedirs(output_dir, exist_ok=True)
+            logging.info("Created output directory: %s", output_dir)
         
         # Save final submission file to custom output path
         final_submission_df.to_csv(cfg.output_file, index=False)

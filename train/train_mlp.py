@@ -17,7 +17,7 @@ project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
-from configs.config import Config, get_branch_hidden_dims
+from configs.config import get_branch_hidden_dims
 from utils.utils import (
     FP_LIST, FP_DIMS, ensure, set_seed, binarize_fp_string, 
     tensorize_fp, fp_string_to_tensor, parse_ecfp4_binary,
