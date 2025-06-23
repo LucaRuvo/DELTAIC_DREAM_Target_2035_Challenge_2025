@@ -58,9 +58,10 @@ def prepare_fingerprint_data(test_df):
             fp_data[fp_name] = test_df[fp_name]
             available_fps.append(fp_name)
         else:
-            # Create dummy fingerprints for missing ones
+            # Create dummy fingerprints for missing ones (comma-separated zeros)
             fp_dim = FP_DIMS.get(fp_name, 2048)
-            fp_data[fp_name] = pd.Series(["0" * fp_dim] * len(test_df))
+            dummy_fp = ",".join(["0"] * fp_dim)
+            fp_data[fp_name] = pd.Series([dummy_fp] * len(test_df))
             missing_fps.append(fp_name)
     
     logging.info("Available fingerprints: %s", available_fps)
@@ -216,19 +217,29 @@ def main():
         logging.info("Created submission template from test data: %s", submission_df.shape)
         
         fp_data = prepare_fingerprint_data(test_df_final)
-        
-        # Load trained model
+          # Load trained model
         lgbm = load_trained_model(cfg)
-          # Generate predictions
+        
+        # Generate predictions
         preds = generate_predictions(lgbm, fp_data)
         test_df_final["lgbm_p"] = preds
-          # Apply calibration if available
+        
+        # Apply calibration if available
         calibrated_preds, calibration_applied = apply_platt_scaling(cfg, preds)
         if calibration_applied:
             test_df_final["lgbm_p_calib"] = calibrated_preds
+            # Use calibrated predictions for submission
+            final_preds = calibrated_preds
+            score_column = 'lgbm_p_calib'
+            logging.info("Using calibrated predictions for submission")
+        else:
+            # Use original predictions if calibration failed
+            final_preds = preds
+            score_column = 'lgbm_p'
+            logging.info("Using original predictions for submission (calibration not available)")
         
         # Prepare submission data
-        submission_df = prepare_submission_data(submission_df, test_df_final, preds, score_column='lgbm_p')
+        submission_df = prepare_submission_data(submission_df, test_df_final, final_preds, score_column=score_column)
         
         # Extract top 1000 compounds for diversification
         top_1000_df = submission_df.head(1000).copy()
@@ -240,13 +251,14 @@ def main():
 
         # Perform diversification clustering to select diversified top 500
         clustered_df = perform_diversification_clustering(top_1000_df, ecfp4_column='ECFP4')
-        
-        # Filter clusters iteratively to maintain diversity
+          # Filter clusters iteratively to maintain diversity
         diversified_top500 = filter_clusters_iteratively(clustered_df, max_per_cluster=2, target_size=500)
         
         # Assign selection labels
-        diversified_top500 = assign_selection_labels(diversified_top500, score_column='lgbm_p')        # Create final submission dataframe
-        final_submission_df = create_final_submission(submission_df, diversified_top500, score_column='lgbm_p')
+        diversified_top500 = assign_selection_labels(diversified_top500, score_column=score_column)
+        
+        # Create final submission dataframe
+        final_submission_df = create_final_submission(submission_df, diversified_top500, score_column=score_column)
         
         # Save final submission file to custom output path
         final_submission_df.to_csv(cfg.output_file, index=False)

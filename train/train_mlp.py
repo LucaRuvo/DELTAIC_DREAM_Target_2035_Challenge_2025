@@ -591,8 +591,6 @@ class MLPTrainingConfig:
     """Simple configuration class for MLP training scripts."""
     def __init__(self, args):
         self.train_data = args.train_data
-        # For MLP training, we don't need test_data - we'll use cross-validation
-        self.test_data = None  # Set to None to avoid validation errors
         self.submission_template = None  # Not needed for training
         self.outdir = args.outdir
         self.seed = args.seed

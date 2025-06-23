@@ -4,7 +4,6 @@ import torch
 class Config:
     def __init__(self, args):
         self.train_data = args.train_data
-        self.test_data = args.test_data
         self.submission_template = getattr(args, 'submission_template', None)
         self.outdir = args.outdir
         self.seed = args.seed
@@ -37,7 +36,6 @@ def get_branch_hidden_dims(preset):
 def parse_args():
     parser = argparse.ArgumentParser(description='DREAM Challenge WDR91 Training Script')
     parser.add_argument('--train-data', type=str, required=True, help='Path to training data file (e.g., data/WDR91_HitGen.parquet)')
-    parser.add_argument('--test-data', type=str, required=True, help='Path to test data file')
     parser.add_argument('--submission-template', type=str, help='Path to submission template CSV file (required for prediction scripts)')
     parser.add_argument('--outdir', type=str, default='./output/', help='Output directory for results and models (default: ./output/)')
     parser.add_argument('--seed', type=int, default=42, help='Random seed for reproducibility')

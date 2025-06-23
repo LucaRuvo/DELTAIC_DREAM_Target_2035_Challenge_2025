@@ -333,20 +333,29 @@ def main():
         logging.info("Created submission template from test data: %s", submission_df.shape)
         
         fp_data = prepare_fingerprint_data_mlp(test_df_final, cfg.device)
-        
-        # Load trained models
+          # Load trained models
         models = load_mlp_fold_models(cfg)
         
         # Generate predictions
-        final_test_preds_proba = generate_mlp_predictions(models, fp_data, cfg.device)
+        final_test_preds_proba = generate_mlp_predictions(models, fp_data, cfg.device, cfg.batch_size)
         test_df_final["mlp_p"] = final_test_preds_proba
         logging.info("Predictions added to test dataframe: %s", test_df_final.shape)
+        
         calibrated_preds, calibration_applied = apply_platt_scaling_mlp(cfg, final_test_preds_proba)
         if calibration_applied:
             test_df_final["mlp_p_calib"] = calibrated_preds
+            # Use calibrated predictions for submission
+            final_preds = calibrated_preds
+            score_column = 'mlp_p_calib'
+            logging.info("Using calibrated predictions for submission")
+        else:
+            # Use original predictions if calibration failed
+            final_preds = final_test_preds_proba
+            score_column = 'mlp_p'
+            logging.info("Using original predictions for submission (calibration not available)")
             
         # Prepare submission data
-        submission_df = prepare_submission_data(submission_df, test_df_final, final_test_preds_proba, score_column='mlp_p')
+        submission_df = prepare_submission_data(submission_df, test_df_final, final_preds, score_column=score_column)
         
         # Extract top 1000 compounds for diversification
         top_1000_df = submission_df.head(1000).copy()
@@ -354,17 +363,17 @@ def main():
 
         # Merge ECFP4 fingerprints for diversification
         original_test_df = pd.read_parquet(cfg.test_data)
-        top_1000_df = merge_ecfp4_fingerprints_mlp(top_1000_df, original_test_df)
-
-        # Perform diversification clustering to select diversified top 500
+        top_1000_df = merge_ecfp4_fingerprints_mlp(top_1000_df, original_test_df)        # Perform diversification clustering to select diversified top 500
         clustered_df = perform_diversification_clustering(top_1000_df, ecfp4_column='ECFP4')
-          # Filter clusters iteratively to maintain diversity
+        
+        # Filter clusters iteratively to maintain diversity
         diversified_top500 = filter_clusters_iteratively(clustered_df, max_per_cluster=2, target_size=500)
         
         # Assign selection labels
-        diversified_top500 = assign_selection_labels(diversified_top500, score_column='mlp_p')
-          # Create final submission dataframe
-        final_submission_df = create_final_mlp_submission(submission_df, diversified_top500, score_column='mlp_p')
+        diversified_top500 = assign_selection_labels(diversified_top500, score_column=score_column)
+        
+        # Create final submission dataframe
+        final_submission_df = create_final_mlp_submission(submission_df, diversified_top500, score_column=score_column)
         
         # Save final submission file to custom output path
         final_submission_df.to_csv(cfg.output_file, index=False)
